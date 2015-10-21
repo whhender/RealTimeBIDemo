@@ -8,8 +8,10 @@ using System.Web.UI.WebControls;
 using Microsoft.IdentityModel.Clients.ActiveDirectory;
 using System.Threading.Tasks;
 using System.Net.Http;
+using System.Net;
 using System.Collections.Specialized;
 using System.Web.Script.Serialization;
+using System.IO;
 
 namespace PBIWebApp
 {
@@ -109,5 +111,71 @@ namespace PBIWebApp
                 }
             }
         }
+
+        protected void createDatasetsButton_Click(object sender, EventArgs e)
+        {
+
+            //The client id that Azure AD creates when you register your client app.
+            string clientID = Properties.Settings.Default.ClientID;
+
+            //RedirectUri you used when you register your app.
+            string redirectUri = Properties.Settings.Default.RedirectUrl;
+
+            //Resource Uri for Power BI API
+            string resourceUri = "https://analysis.windows.net/powerbi/api";
+
+            //OAuth2 authority Uri
+            string authorityUri = "https://login.windows.net/common/oauth2/authorize";
+
+            string powerBIApiUrl = "https://api.powerbi.com/v1.0/myorg";
+
+            //Get access token: 
+            // To call a Power BI REST operation, create an instance of AuthenticationContext and call AcquireToken
+            // AuthenticationContext is part of the Active Directory Authentication Library NuGet package
+            // To install the Active Directory Authentication Library NuGet package in Visual Studio, 
+            //  run "Install-Package Microsoft.IdentityModel.Clients.ActiveDirectory" from the nuget Package Manager Console.
+
+            // AcquireToken will acquire an Azure access token
+            // Call AcquireToken to get an Azure token from Azure Active Directory token issuance endpoint
+            //AuthenticationContext authContext = new AuthenticationContext(authorityUri);
+            //string token = authContext.AcquireToken(resourceUri, clientID, new Uri(redirectUri)).AccessToken;
+
+            //POST web request to create a dataset.
+            //To create a Dataset in a group, use the Groups uri: https://api.powerbi.com/v1.0/myorg/groups/{group_id}/datasets
+            HttpWebRequest request = System.Net.WebRequest.Create(string.Format("{0}/datasets", powerBIApiUrl)) as System.Net.HttpWebRequest;
+            request.KeepAlive = true;
+            request.Method = "POST";
+            request.ContentLength = 0;
+            request.ContentType = "application/json";
+            request.Headers.Add("Authorization", String.Format("Bearer {0}", authResult.AccessToken));
+
+            //Create dataset JSON for POST request
+            string json = "{\"name\": \"SalesMarketing\", \"tables\": " +
+                "[{\"name\": \"Product\", \"columns\": " +
+                "[{ \"name\": \"ProductID\", \"dataType\": \"Int64\"}, " +
+                "{ \"name\": \"Name\", \"dataType\": \"string\"}, " +
+                "{ \"name\": \"Category\", \"dataType\": \"string\"}," +
+                "{ \"name\": \"IsCompete\", \"dataType\": \"bool\"}," +
+                "{ \"name\": \"ManufacturedOn\", \"dataType\": \"DateTime\"}" +
+                "]}]}";
+
+            //POST web request
+            byte[] byteArray = System.Text.Encoding.UTF8.GetBytes(json);
+            request.ContentLength = byteArray.Length;
+
+            //Write JSON byte[] into a Stream
+            using (Stream writer = request.GetRequestStream())
+            {
+                writer.Write(byteArray, 0, byteArray.Length);
+
+                var response = (HttpWebResponse)request.GetResponse();
+
+                //return response.StatusCode.ToString();
+            }
+        }
+
+
+
+
     }
 }

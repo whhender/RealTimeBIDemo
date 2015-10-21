@@ -24,7 +24,9 @@
             <tr>  
                 <td><asp:TextBox ID="resultsTextbox" runat="server" Height="200px" Width="586px" TextMode="MultiLine" Wrap="False"></asp:TextBox></td>
             </tr>
-
+            <tr>
+                <td><asp:Button ID="createDatasetButton" runat="server" OnClick="createDatasetsButton_Click" Text="Create Datasets" /></td>
+            </tr>
             <tr>
                 <td><b>Signed in as:</b></td>
             </tr>

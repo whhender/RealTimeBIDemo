@@ -16,3 +16,21 @@ C:\Users\whhender\Desktop\getting-started-web-app-asp.net-master (3)\getting-sta
 C:\Users\whhender\Desktop\getting-started-web-app-asp.net-master (3)\getting-started-web-app-asp.net-master\PBIWebApp\obj\Debug\PBIWebApp.csprojResolveAssemblyReference.cache
 C:\Users\whhender\Desktop\getting-started-web-app-asp.net-master (3)\getting-started-web-app-asp.net-master\PBIWebApp\obj\Debug\PBIWebApp.dll
 C:\Users\whhender\Desktop\getting-started-web-app-asp.net-master (3)\getting-started-web-app-asp.net-master\PBIWebApp\obj\Debug\PBIWebApp.pdb
+C:\Users\whhender\Documents\RealTimeBIDemo\getting-started-web-app-asp.net-master\PBIWebApp\bin\PBIWebApp.dll.config
+C:\Users\whhender\Documents\RealTimeBIDemo\getting-started-web-app-asp.net-master\PBIWebApp\bin\PBIWebApp.dll
+C:\Users\whhender\Documents\RealTimeBIDemo\getting-started-web-app-asp.net-master\PBIWebApp\bin\PBIWebApp.pdb
+C:\Users\whhender\Documents\RealTimeBIDemo\getting-started-web-app-asp.net-master\PBIWebApp\bin\Microsoft.AspNet.FriendlyUrls.dll
+C:\Users\whhender\Documents\RealTimeBIDemo\getting-started-web-app-asp.net-master\PBIWebApp\bin\Microsoft.AspNet.Web.Optimization.WebForms.dll
+C:\Users\whhender\Documents\RealTimeBIDemo\getting-started-web-app-asp.net-master\PBIWebApp\bin\Microsoft.IdentityModel.Clients.ActiveDirectory.dll
+C:\Users\whhender\Documents\RealTimeBIDemo\getting-started-web-app-asp.net-master\PBIWebApp\bin\Microsoft.IdentityModel.Clients.ActiveDirectory.WindowsForms.dll
+C:\Users\whhender\Documents\RealTimeBIDemo\getting-started-web-app-asp.net-master\PBIWebApp\bin\Microsoft.ScriptManager.MSAjax.dll
+C:\Users\whhender\Documents\RealTimeBIDemo\getting-started-web-app-asp.net-master\PBIWebApp\bin\Microsoft.ScriptManager.WebForms.dll
+C:\Users\whhender\Documents\RealTimeBIDemo\getting-started-web-app-asp.net-master\PBIWebApp\bin\Microsoft.Web.Infrastructure.dll
+C:\Users\whhender\Documents\RealTimeBIDemo\getting-started-web-app-asp.net-master\PBIWebApp\bin\System.Web.Optimization.dll
+C:\Users\whhender\Documents\RealTimeBIDemo\getting-started-web-app-asp.net-master\PBIWebApp\bin\WebGrease.dll
+C:\Users\whhender\Documents\RealTimeBIDemo\getting-started-web-app-asp.net-master\PBIWebApp\bin\Microsoft.IdentityModel.Clients.ActiveDirectory.xml
+C:\Users\whhender\Documents\RealTimeBIDemo\getting-started-web-app-asp.net-master\PBIWebApp\bin\System.Web.Optimization.xml
+C:\Users\whhender\Documents\RealTimeBIDemo\getting-started-web-app-asp.net-master\PBIWebApp\bin\Microsoft.AspNet.FriendlyUrls.xml
+C:\Users\whhender\Documents\RealTimeBIDemo\getting-started-web-app-asp.net-master\PBIWebApp\obj\Debug\PBIWebApp.csprojResolveAssemblyReference.cache
+C:\Users\whhender\Documents\RealTimeBIDemo\getting-started-web-app-asp.net-master\PBIWebApp\obj\Debug\PBIWebApp.dll
+C:\Users\whhender\Documents\RealTimeBIDemo\getting-started-web-app-asp.net-master\PBIWebApp\obj\Debug\PBIWebApp.pdb
