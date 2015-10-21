@@ -67,6 +67,15 @@ namespace PBIWebApp {
         protected global::System.Web.UI.WebControls.Button createDatasetButton;
         
         /// <summary>
+        /// sendDataButton control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button sendDataButton;
+        
+        /// <summary>
         /// userLabel control.
         /// </summary>
         /// <remarks>

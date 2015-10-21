@@ -174,6 +174,42 @@ namespace PBIWebApp
             }
         }
 
+        protected void sendDataButton_Click(object sender, EventArgs e)
+        {
+            string responseContent = string.Empty;
+
+            //The resource Uri to the Power BI REST API resource
+            string datasetsUri = "https://api.powerbi.com/v1.0/myorg/datasets";
+
+            //Configure datasets request
+            System.Net.WebRequest request = System.Net.WebRequest.Create(datasetsUri) as System.Net.HttpWebRequest;
+            request.Method = "GET";
+            request.ContentLength = 0;
+            request.Headers.Add("Authorization", String.Format("Bearer {0}", authResult.AccessToken));
+
+            //Get datasets response from request.GetResponse()
+            using (var response = request.GetResponse() as System.Net.HttpWebResponse)
+            {
+                //Get reader from response stream
+                using (var reader = new System.IO.StreamReader(response.GetResponseStream()))
+                {
+                    responseContent = reader.ReadToEnd();
+
+                    //Deserialize JSON string
+                    //JavaScriptSerializer class is in System.Web.Script.Serialization
+                    JavaScriptSerializer json = new JavaScriptSerializer();
+                    Datasets datasets = (Datasets)json.Deserialize(responseContent, typeof(Datasets));
+
+                    resultsTextbox.Text = string.Empty;
+                    //Get each Dataset from 
+                    foreach (dataset ds in datasets.value)
+                    {
+                        resultsTextbox.Text += String.Format("{0}\t{1}\n", ds.Id, ds.Name);
+                    }
+                }
+            }
+        }
+
 
 
 
