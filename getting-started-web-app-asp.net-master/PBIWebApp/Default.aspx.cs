@@ -75,6 +75,37 @@ namespace PBIWebApp
             string authorityUri = "https://login.windows.net/common/oauth2/authorize/";
             Response.Redirect(String.Format("{0}?{1}", authorityUri, queryString));       
         }
+        public dataset[] GetDatasets()
+        {
+            string responseContent = string.Empty;
+
+            //The resource Uri to the Power BI REST API resource
+            string datasetsUri = "https://api.powerbi.com/v1.0/myorg/datasets";
+
+            //Configure datasets request
+            System.Net.WebRequest request = System.Net.WebRequest.Create(datasetsUri) as System.Net.HttpWebRequest;
+            request.Method = "GET";
+            request.ContentLength = 0;
+            request.Headers.Add("Authorization", String.Format("Bearer {0}", authResult.AccessToken));
+
+            //Get datasets response from request.GetResponse()
+            using (var response = request.GetResponse() as System.Net.HttpWebResponse)
+            {
+                //Get reader from response stream
+                using (var reader = new System.IO.StreamReader(response.GetResponseStream()))
+                {
+                    responseContent = reader.ReadToEnd();
+
+                    //Deserialize JSON string
+                    //JavaScriptSerializer class is in System.Web.Script.Serialization
+                    JavaScriptSerializer json = new JavaScriptSerializer();
+                    Datasets datasets = (Datasets)json.Deserialize(responseContent, typeof(Datasets));
+
+                    return datasets.value;
+                }
+            }
+        }
+
 
         protected void getDatasetsButton_Click(object sender, EventArgs e)
         {
@@ -176,37 +207,68 @@ namespace PBIWebApp
 
         protected void sendDataButton_Click(object sender, EventArgs e)
         {
-            string responseContent = string.Empty;
+            //This is sample code to illustrate a Power BI operation. 
+            //In a production application, refactor code into specific methods and use appropriate exception handling.
 
-            //The resource Uri to the Power BI REST API resource
-            string datasetsUri = "https://api.powerbi.com/v1.0/myorg/datasets";
+            //The client id that Azure AD creates when you register your client app.
+            //  To learn how to register a client app, see https://msdn.microsoft.com/en-US/library/dn877542(Azure.100).aspx  
+            string clientID = Properties.Settings.Default.ClientID;;
 
-            //Configure datasets request
-            System.Net.WebRequest request = System.Net.WebRequest.Create(datasetsUri) as System.Net.HttpWebRequest;
-            request.Method = "GET";
+            //Assuming you have a dataset named SalesMarketing
+            // To get a dataset id, see Get Datasets operation.           
+            dataset[] datasets = GetDatasets();
+            string datasetId = (from d in datasets where d.Name == "SalesMarketing" select d).FirstOrDefault().Id;
+
+            // Assumes the Dataset named SalesMarketing has a Table named Product
+            string tableName = "Product";
+
+            //RedirectUri you used when you register your app.
+            //For a client app, a redirect uri gives Azure AD more details on the application that it will authenticate.
+            // You can use this redirect uri for your client app
+            string redirectUri = Properties.Settings.Default.RedirectUrl;
+
+            //Resource Uri for Power BI API
+            string resourceUri = "https://analysis.windows.net/powerbi/api";
+
+            //OAuth2 authority Uri
+            string authorityUri = "https://login.windows.net/common/oauth2/authorize";
+
+            string powerBIApiUrl = String.Format("https://api.powerbi.com/v1.0/myorg/datasets/{0}/tables/{1}/rows", datasetId, tableName);
+
+            //Get access token: 
+            // To call a Power BI REST operation, create an instance of AuthenticationContext and call AcquireToken
+            // AuthenticationContext is part of the Active Directory Authentication Library NuGet package
+            // To install the Active Directory Authentication Library NuGet package in Visual Studio, 
+            //  run "Install-Package Microsoft.IdentityModel.Clients.ActiveDirectory" from the nuget Package Manager Console.
+
+            // AcquireToken will acquire an Azure access token
+            // Call AcquireToken to get an Azure token from Azure Active Directory token issuance endpoint
+            //AuthenticationContext authContext = new AuthenticationContext(authorityUri);
+            //string token = authContext.AcquireToken(resourceUri, clientId, new Uri(redirectUri), PromptBehavior.RefreshSession).AccessToken;
+
+            //POST web request to add rows.
+            //To add rows to a dataset in a group, use the Groups uri: https://api.powerbi.com/v1.0/myorg/groups/{group_id}/datasets/{dataset_id}/tables/{table_name}/rows
+            HttpWebRequest request = System.Net.WebRequest.Create(powerBIApiUrl) as System.Net.HttpWebRequest;
+            request.KeepAlive = true;
+            request.Method = "POST";
             request.ContentLength = 0;
+            request.ContentType = "application/json";
             request.Headers.Add("Authorization", String.Format("Bearer {0}", authResult.AccessToken));
 
-            //Get datasets response from request.GetResponse()
-            using (var response = request.GetResponse() as System.Net.HttpWebResponse)
+            //JSON content for product row
+            string json = "{\"rows\":" +
+                "[{\"ProductID\":1,\"Name\":\"Adjustable Race\",\"Category\":\"Components\",\"IsCompete\":true,\"ManufacturedOn\":\"07/30/2014\"}," +
+                "{\"ProductID\":2,\"Name\":\"LL Crankarm\",\"Category\":\"Components\",\"IsCompete\":true,\"ManufacturedOn\":\"07/30/2014\"}," +
+                "{\"ProductID\":3,\"Name\":\"HL Mountain Frame - Silver\",\"Category\":\"Bikes\",\"IsCompete\":true,\"ManufacturedOn\":\"07/30/2014\"}]}";
+
+            //POST web request
+            byte[] byteArray = System.Text.Encoding.UTF8.GetBytes(json);
+            request.ContentLength = byteArray.Length;
+
+            //Write JSON byte[] into a Stream
+            using (Stream writer = request.GetRequestStream())
             {
-                //Get reader from response stream
-                using (var reader = new System.IO.StreamReader(response.GetResponseStream()))
-                {
-                    responseContent = reader.ReadToEnd();
-
-                    //Deserialize JSON string
-                    //JavaScriptSerializer class is in System.Web.Script.Serialization
-                    JavaScriptSerializer json = new JavaScriptSerializer();
-                    Datasets datasets = (Datasets)json.Deserialize(responseContent, typeof(Datasets));
-
-                    resultsTextbox.Text = string.Empty;
-                    //Get each Dataset from 
-                    foreach (dataset ds in datasets.value)
-                    {
-                        resultsTextbox.Text += String.Format("{0}\t{1}\n", ds.Id, ds.Name);
-                    }
-                }
+                writer.Write(byteArray, 0, byteArray.Length);
             }
         }
 
