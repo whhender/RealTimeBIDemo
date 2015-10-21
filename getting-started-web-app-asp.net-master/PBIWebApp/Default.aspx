@@ -31,6 +31,12 @@
                 <td><asp:Button ID="sendDataButton" runat="server" OnClick="sendDataButton_Click" Text="Send Data" /></td>
             </tr>
             <tr>
+                <td><asp:Button ID="sendMoreDataButton" runat="server" OnClick="sendDataButton2_Click" Text="Send More Data" /></td>
+            </tr>
+            <tr>
+                <td><asp:Button ID="sendEvenMoreDataButton" runat="server" OnClick="sendDataButton3_Click" Text="Send Even More Data" /></td>
+            </tr>
+            <tr>
                 <td><b>Signed in as:</b></td>
             </tr>
             <tr>

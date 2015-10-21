@@ -76,6 +76,24 @@ namespace PBIWebApp {
         protected global::System.Web.UI.WebControls.Button sendDataButton;
         
         /// <summary>
+        /// sendMoreDataButton control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button sendMoreDataButton;
+        
+        /// <summary>
+        /// sendEvenMoreDataButton control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button sendEvenMoreDataButton;
+        
+        /// <summary>
         /// userLabel control.
         /// </summary>
         /// <remarks>
